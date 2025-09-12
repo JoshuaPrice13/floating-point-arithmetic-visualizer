@@ -5,7 +5,7 @@ public class FPAV_Frame extends JFrame{
     //Contrutor
     public FPAV_Frame (){
         setTitle("floating-point-arithmetic-simulator");
-        setSize(900,800);
+        setSize(800,600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         
 
