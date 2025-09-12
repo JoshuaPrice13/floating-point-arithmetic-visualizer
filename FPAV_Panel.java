@@ -58,10 +58,10 @@ public class FPAV_Panel extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 double num1 = Double.parseDouble(decimalField1.getText());
                 double num2 = Double.parseDouble(decimalField2.getText());
-                String binary1 = decimalToIEEE754(num1);
-                String binary2 = decimalToBinaryString(num2);
-                String binaryResult = binaryAddition(binary1, binary2);
-                double result = binaryStringToDecimal(binaryResult);
+                String binary1 = m.decimalToIEEE754(num1);
+                String binary2 = m.decimalToIEEE754(num2);
+                String binaryResult = m.binaryAddition(binary1, binary2);
+                double result = m.binaryStringToDecimal(binaryResult);
                 resultArea.setText("Binary 1: " + binary1 + "\nBinary 2: " + binary2 + "\nResult (Binary): " + binaryResult + "\nResult (Decimal): " + result);
             }
         });
