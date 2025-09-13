@@ -1,3 +1,8 @@
+/*
+This panel sits on the frame and acts as a controller for the 
+model that utilizes the binary operations.
+ */
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -5,12 +10,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
-import java.lang.classfile.Opcode;
 import java.awt.event.ActionEvent;
 
 import java.awt.BorderLayout;

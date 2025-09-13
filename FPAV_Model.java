@@ -1,3 +1,5 @@
+//This model handles all operations and conversions with the data from the panel
+
 public class FPAV_Model {
     /**
      * Converts decimal number to IEEE 754 binary representation
@@ -56,21 +58,6 @@ public class FPAV_Model {
         return (sign == 0) ? result : -result;
     }
 
-
-    /**
-     * Format IEEE 754 representation for better readability. (Just for visuals)
-     */
-    private static String formatIEEE754(String IEEE) {
-        if (IEEE.length() != 64) {
-            IEEE = String.format("%64s", IEEE).replace(' ', '0');
-        }
-        
-        String sign = IEEE.substring(0, 1);
-        String exponent = IEEE.substring(1, 12);
-        String mantissa = IEEE.substring(12);
-        
-        return sign + " | " + exponent + " | " + mantissa;
-    }
     
 //============================================================================
 //  OPERATIONS {
@@ -290,11 +277,7 @@ public class FPAV_Model {
                String.format("%11s", Integer.toBinaryString(exponent)).replace(' ', '0') + 
                mantissa;
     }
-    
-    private static String handleSpecialDivision(String a, String b) {
-        // Simplified special case handling
-        return "0111111111111000000000000000000000000000000000000000000000000000"; // NaN
-    }
+
     
     /**
      * Bitwise division of the two binaries inputed. 
