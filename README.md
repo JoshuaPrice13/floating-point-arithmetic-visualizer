@@ -6,8 +6,7 @@ CS-3513 Numerical Methods for Digital Computers
 This Java GUI application demonstrates IEEE 754 floating-point 
 arithmetic by visualizing binary representations and computational 
 steps for basic operations. It is for practice learning about numerical 
-errors like precision loss through interactive examples with 
-detailed explanations.
+errors like precision loss.
 
 How to compile using javac from the command line
 >javac FPAV.java FPAV_Frame.java FPAV_Panel.java FPAV_Model.java
