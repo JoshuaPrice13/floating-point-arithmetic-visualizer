@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.lang.classfile.Opcode;
 import java.awt.event.ActionEvent;
 
 import java.awt.BorderLayout;
@@ -17,6 +18,10 @@ import java.awt.BorderLayout;
 public class FPAV_Panel extends JPanel{
 
     public static FPAV_Model m = new FPAV_Model();
+
+    public static JTextArea resultArea;
+    public static JTextField decimalField1;
+    public static JTextField decimalField2;
     
     public FPAV_Panel (){
         setBackground(Color.GRAY);
@@ -35,13 +40,15 @@ public class FPAV_Panel extends JPanel{
         
         // Input fields
         JLabel userLabel1 = new JLabel("Enter decimal number 1:");
-        JTextField decimalField1 = new JTextField(20);
+        decimalField1 = new JTextField(20);
         
         JLabel userLabel2 = new JLabel("Enter decimal number 2:");
-        JTextField decimalField2 = new JTextField(20);
+        decimalField2 = new JTextField(20);
         
-        // Button
         JButton addButton = new JButton("Add");
+        JButton subtractButton = new JButton("Subtract");
+        JButton multiplyButton = new JButton("Multiply");
+        JButton divideButton = new JButton("Divide");
         
         // Add components to input panel
         inputPanel.add(userLabel1);
@@ -50,10 +57,13 @@ public class FPAV_Panel extends JPanel{
         inputPanel.add(decimalField2);
         inputPanel.add(new JLabel()); // Empty space
         inputPanel.add(addButton);
+        inputPanel.add(subtractButton);
+        inputPanel.add(multiplyButton);
+        inputPanel.add(divideButton);
         
         // Result area
         JLabel resultLabel = new JLabel("Result:");
-        JTextArea resultArea = new JTextArea(10, 50);
+        resultArea = new JTextArea(10, 50);
         resultArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(resultArea);
         
@@ -66,25 +76,87 @@ public class FPAV_Panel extends JPanel{
         add(inputPanel, BorderLayout.NORTH);
         add(resultPanel, BorderLayout.CENTER);
         
-        // Action listener
-        addButton.addActionListener(new ActionListener() {
+
+        addButton.addActionListener(operationButton("addButton"));
+        subtractButton.addActionListener(operationButton("subtractButton"));
+        multiplyButton.addActionListener(operationButton("multiplyButton"));
+        divideButton.addActionListener(operationButton("divideButton"));
+    }
+
+    private ActionListener operationButton(String buttonName){
+        ActionListener tmp = new ActionListener() {
+            
+            double num1;
+            double num2;
+            String binary1;
+            String binary2;
+            String binaryResult;
+            double result;
+
+            boolean validInput = true;
+
             public void actionPerformed(ActionEvent e) {
+                validInput = true;
                 try {
-                    double num1 = Double.parseDouble(decimalField1.getText());
-                    double num2 = Double.parseDouble(decimalField2.getText());
-                    String binary1 = m.decimalToIEEE754(num1);
-                    String binary2 = m.decimalToIEEE754(num2);
-                    String binaryResult = m.binaryAddition(binary1, binary2);
-                    double result = m.ieee754ToDecimal(binaryResult);
-                    
-                    resultArea.setText("Binary 1: " + binary1 + 
+                    num1 = Double.parseDouble(decimalField1.getText());
+                    num2 = Double.parseDouble(decimalField2.getText());
+                    binary1 = m.decimalToIEEE754(num1);
+                    binary2 = m.decimalToIEEE754(num2);
+                } catch (NumberFormatException ex) {
+                    resultArea.setText("Error: Please enter valid decimal numbers.");
+                    validInput = false;
+                }
+                if (validInput){
+                    //Addition
+                    if(buttonName == "addButton"){
+                        binaryResult = m.bitwiseAddition(binary1, binary2);
+                        result = m.ieee754ToDecimal(binaryResult);
+                        resultArea.setText("Binary 1: " + binary1 + 
                                     "\nBinary 2: " + binary2 + 
                                     "\nResult (Binary): " + binaryResult + 
                                     "\nResult (Decimal): " + result);
-                } catch (NumberFormatException ex) {
-                    resultArea.setText("Error: Please enter valid decimal numbers.");
+                    }
+                    //Subtraction
+                    if(buttonName == "subtractButton"){
+                        binaryResult = m.bitwiseSubtraction(binary1, binary2);
+                        result = m.ieee754ToDecimal(binaryResult);
+                        resultArea.setText("Binary 1: " + binary1 + 
+                                    "\nBinary 2: " + binary2 + 
+                                    "\nResult (Binary): " + binaryResult + 
+                                    "\nResult (Decimal): " + result);
+                    }
+                    //Multiplication
+                    if(buttonName == "multiplyButton"){
+                        binaryResult = m.bitwiseMultiplication(binary1, binary2);
+                        result = m.ieee754ToDecimal(binaryResult);
+                        resultArea.setText("Binary 1: " + binary1 + 
+                                    "\nBinary 2: " + binary2 + 
+                                    "\nResult (Binary): " + binaryResult + 
+                                    "\nResult (Decimal): " + result);
+                    }
+                    //Division
+                    if(buttonName == "divideButton"){
+                        binaryResult = m.bitwiseDivision(binary1, binary2);
+                        if (binaryResult == null){
+                            resultArea.setText("Binary 1: " + binary1 + 
+                                    "\nBinary 2: " + binary2 + 
+                                    "\nResult: NaN (Cannot Divide by zero)");
+                            
+                        }
+                        else{
+                            result = m.ieee754ToDecimal(binaryResult);
+                            resultArea.setText("Binary 1: " + binary1 + 
+                                    "\nBinary 2: " + binary2 + 
+                                    "\nResult (Binary): " + binaryResult + 
+                                    "\nResult (Decimal): " + result);
+                        }
+                        
+                    }
+                        
                 }
             }
-        });
+                
+        };
+        return tmp;
     }
 }
